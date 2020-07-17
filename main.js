@@ -94,7 +94,7 @@ class ServiceNowAdapter extends EventEmitter {
  *   that handles the response.
  */
 healthcheck(callback) {
-log.error("IN HEALTHCHECK : Adapter ID : " + this.id);
+//log.error("IN HEALTHCHECK : Adapter ID : " + this.id);
 //this.emitOnline();
 
  this.getRecord((data, error) => {
@@ -104,7 +104,7 @@ log.error("IN HEALTHCHECK : Adapter ID : " + this.id);
     * or the instance was hibernating. You must write
     * the blocks for each branch.
     */
-    log.error ("IN THIS.GETRECORD : Adapter ID : " + this.id);
+    //log.error ("IN THIS.GETRECORD : Adapter ID : " + this.id);
    if (error) {
      /**
       * Write this block.
@@ -119,7 +119,7 @@ log.error("IN HEALTHCHECK : Adapter ID : " + this.id);
       * for the callback's errorMessage parameter.
       */
       log.error("ERROR LOG : Adapter ID : " + this.id);
-      this.emitOnline();
+      this.emitOffline();
 
    } else {
      /**
@@ -132,7 +132,7 @@ log.error("IN HEALTHCHECK : Adapter ID : " + this.id);
       * parameter as an argument for the callback function's
       * responseData parameter.
       */
-      log.error("passed healthcheck : Adapter ID : " + this.id);
+      log.info("passed healthcheck : Adapter ID : " + this.id);
       this.emitOnline();
    }
  });
