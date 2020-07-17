@@ -199,42 +199,7 @@ log.error("IN HEALTHCHECK : Adapter ID : " + this.id);
     //callback.error = error;
     }
     //callback.result = result;
-    log.error(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
-    var J = JSON.stringify(data);    
-    var JP = JSON.parse(J);
-    if (JP.body) {
-        log.warn(`PARSED : ${JP.body}`);
-        var R = JSON.stringify(JSON.parse(JP.body));
-        //log.warn(`RESULT : ${R}`);
-        var changeTickets = new Object();
-        var RP = JSON.parse(R, (key, value) => {
-            if (key.match(/number/)) {
-                changeTickets.change_ticket_number = value;
-            }
-            
-            else if (key.match(/sys_id/)) {
-                changeTickets.change_ticket_key = value;
-            }
-            
-            else if(key.match(/active/) ||
-                key.match(/priority/) ||
-                key.match(/^description/) ||
-                key.match(/work_start/) ||
-                key.match(/work_end/) ||
-                key.match(/sys_id/)) {
-            log.warn(`KEY ${key} : ${value}`);
-                changeTickets[key] = value;
-                }
-            
-        });
-        log.warn(`TICKET : ${changeTickets}`);
-        return callback(changeTickets,error);
-    
-    }
-    else {
-    log.warn(`Parsed : ${JP}`);
-    }
-
+    //log.error(`\nResponse returned from GET request:\n${JSON.stringify(data)}`)
     return callback(data,error);
   });
     log.error("OUT GETRECORD : Adapter ID : " + this.id);
@@ -259,45 +224,9 @@ log.error("IN HEALTHCHECK : Adapter ID : " + this.id);
      */
   this.connector.post((data, error) => {
     if (error) {
-      log.error(`\nError returned from POST request:\n${JSON.stringify(error)}`);
+      console.error(`\nError returned from POST request:\n${JSON.stringify(error)}`);
     }
-    log.warn(`\nResponse returned from POST request:\n${JSON.stringify(data)}`);
-    
-    var J = JSON.stringify(data);    
-    var JP = JSON.parse(J);
-    if (JP.body) {
-        //log.warn(`PARSED : ${JP.body}`);
-        var R = JSON.stringify(JSON.parse(JP.body));
-        //log.warn(`RESULT : ${R}`);
-        var changeTickets = new Object();
-        var RP = JSON.parse(R, (key, value) => {
-            if (key.match(/number/)) {
-                changeTickets.change_ticket_number = value;
-            }
-            
-            else if (key.match(/sys_id/)) {
-                changeTickets.change_ticket_key = value;
-            }
-            
-            else if(key.match(/active/) ||
-                key.match(/priority/) ||
-                key.match(/^description/) ||
-                key.match(/work_start/) ||
-                key.match(/work_end/) ||
-                key.match(/sys_id/)) {
-            log.warn(`KEY ${key} : ${value}`);
-                changeTickets[key] = value;
-                }
-            
-        });
-        log.warn(`TICKET : ${changeTickets}`);
-        return callback(changeTickets,error);
-    
-    }
-    else {
-    log.warn(`Parsed : ${JP}`);
-    }
-
+    console.log(`\nResponse returned from POST request:\n${JSON.stringify(data)}`)
   });
 
   }
