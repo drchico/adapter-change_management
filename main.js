@@ -192,28 +192,29 @@ log.error("IN HEALTHCHECK : Adapter ID : " + this.id);
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-     log.error("IN GETRECORD : Adapater ID : " + this.id);
+     //log.error("IN GETRECORD : Adapater ID : " + this.id);
     this.connector.get((data, error) => {
     if (error) {
       log.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
     //callback.error = error;
     }
     //callback.result = result;
-    log.error(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
+    //log.error(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
     var J = JSON.stringify(data);    
     var JP = JSON.parse(J);
+    var changeTickets = [];
     if (JP.body) {
-        log.warn(`PARSED : ${JP.body}`);
+        //log.warn(`PARSED : ${JP.body}`);
         var R = JSON.stringify(JSON.parse(JP.body));
         //log.warn(`RESULT : ${R}`);
-        var changeTickets = new Object();
+        var changeTicket = new Object();
         var RP = JSON.parse(R, (key, value) => {
             if (key.match(/number/)) {
-                changeTickets.change_ticket_number = value;
+                changeTicket.change_ticket_number = value;
             }
             
             else if (key.match(/sys_id/)) {
-                changeTickets.change_ticket_key = value;
+                changeTicket.change_ticket_key = value;
             }
             
             else if(key.match(/active/) ||
@@ -222,22 +223,23 @@ log.error("IN HEALTHCHECK : Adapter ID : " + this.id);
                 key.match(/work_start/) ||
                 key.match(/work_end/) ||
                 key.match(/sys_id/)) {
-            log.warn(`KEY ${key} : ${value}`);
-                changeTickets[key] = value;
+            //log.warn(`KEY ${key} : ${value}`);
+                changeTicket[key] = value;
                 }
             
         });
-        log.warn(`TICKET : ${changeTickets}`);
-        return callback(changeTickets,error);
+        changeTickets.push(changeTicket);
+        //log.warn(`TICKET : ${changeTickets}`);
+        //return callback(changeTickets,error);
     
     }
     else {
-    log.warn(`Parsed : ${JP}`);
+    //log.warn(`Parsed : ${JP}`);
     }
 
-    return callback(data,error);
+    return callback(changeTickets,error);
   });
-    log.error("OUT GETRECORD : Adapter ID : " + this.id);
+    //log.error("OUT GETRECORD : Adapter ID : " + this.id);
     //return callback(data, error);
   }
 
@@ -261,7 +263,7 @@ log.error("IN HEALTHCHECK : Adapter ID : " + this.id);
     if (error) {
       log.error(`\nError returned from POST request:\n${JSON.stringify(error)}`);
     }
-    log.warn(`\nResponse returned from POST request:\n${JSON.stringify(data)}`);
+    //log.warn(`\nResponse returned from POST request:\n${JSON.stringify(data)}`);
     
     var J = JSON.stringify(data);    
     var JP = JSON.parse(J);
@@ -285,17 +287,17 @@ log.error("IN HEALTHCHECK : Adapter ID : " + this.id);
                 key.match(/work_start/) ||
                 key.match(/work_end/) ||
                 key.match(/sys_id/)) {
-            log.warn(`KEY ${key} : ${value}`);
+            //log.warn(`KEY ${key} : ${value}`);
                 changeTickets[key] = value;
                 }
             
         });
-        log.warn(`TICKET : ${changeTickets}`);
+        //log.warn(`TICKET : ${changeTickets}`);
         return callback(changeTickets,error);
     
     }
     else {
-    log.warn(`Parsed : ${JP}`);
+    //log.warn(`Parsed : ${JP}`);
     }
 
   });
